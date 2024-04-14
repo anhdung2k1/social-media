@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Home</title>
+</head>
+<body>
+<section layout:fragment="content">
+
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Accounts table</h4>
+                    <div class="table-responsive">
+                        <table class="text-center table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    User Name
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Created Date
+                                </th>
+                                <th>
+                                    Updated Date
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="account : ${listAccounts}">
+                                <td th:utext="${account.acc_id}"></td>
+                                <td th:utext="${account.userName}"></td>
+                                <td th:utext="${account.email}"></td>
+                                <td th:utext="${account.createAt}"></td>
+                                <td th:utext="${account.updateAt}"></td>
+                                <td th:if="${account.isArchieved}">
+                                    <label class="badge badge-danger">Banned</label>
+                                </td>
+                                <td th:if="${account.isArchieved == 0}">
+                                    <label class="badge badge-success">Active</label>
+                                </td>
+
+                                <td th:if="${account.isArchieved == 0}">
+                                    <form action="#" th:action="@{/pages/accounts/{id}/remove/AccountTable(id = ${account.acc_id})}" th:method="put" >
+                                        <button class=" btn menu-icon mdi mdi-account-remove icon-mdi"></button>
+                                    </form>
+                                </td>
+                                <td th:if="${account.isArchieved}">
+                                    <form action="#" th:action="@{/pages/accounts/{id}/recover/AccountTable(id = ${account.acc_id})}" th:method="put" >
+                                        <button type="submit" class="btn menu-icon mdi mdi-backup-restore icon-mdi"></button>
+                                    </form>
+                                </td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

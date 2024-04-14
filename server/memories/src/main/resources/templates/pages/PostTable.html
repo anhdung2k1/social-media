@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <title>Home</title>
+</head>
+<body>
+<section layout:fragment="content">
+
+  <div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Accounts table</h4>
+          <div class="table-responsive">
+            <table class="text-center table table-striped">
+              <thead>
+              <tr>
+                <th>
+                  Id
+                </th>
+                <th>
+                  User Name
+                </th>
+                <th>
+                  Content
+                </th>
+                <th>
+                  Created Date
+                </th>
+                <th>
+                  Updated Date
+                </th>
+                <th>
+                  Status
+                </th>
+                <th>
+                  Action
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="post : ${listPosts}">
+                <td th:utext="${post.postId}"></td>
+                <td th:utext="${post.user.userName}"></td>
+                <td th:utext="${post.content}"></td>
+                <td th:utext="${post.createAt}"></td>
+                <td th:utext="${post.updateAt}"></td>
+                <td th:if="${post.isArchieved == 0}">
+                  <label class="badge badge-danger">Banned</label>
+                </td>
+                <td th:if="${post.isArchieved}">
+                  <label class="badge badge-success">Active</label>
+                </td>
+<!--                <td th:utext="${post.isArchieved}"></td>-->
+                <td th:if="${post.isArchieved}"}>
+                  <a class="menu-icon mdi mdi-delete-forever icon-md user-select-auto" href="#"></a>
+                </td>
+                <td th:if="${post.isArchieved == 0}"}>
+                  <a class="menu-icon mdi mdi-backup-restore icon-md user-select-auto" href="#"></a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</section>
+</body>
+</html>

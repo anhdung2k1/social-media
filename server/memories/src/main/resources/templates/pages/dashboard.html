@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout}">
+<head>
+    <title>Home</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" th:inline="javascript" >
+
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', {'packages':['corechart']});
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Callback that creates and populates a data table,
+        // instantiates the pie chart, passes in the data and
+        // draws it.
+        function drawChart() {
+
+            // Create the data table.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Posts');
+            data.addRows([[${chartData}]]);
+
+            // Set chart options
+            var options = {'title':'Posts per month',
+                // 'width':1000,
+                 'height':500
+                };
+
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+<body>
+<section layout:fragment="content">
+
+    <div class="row">
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
+            <div class="card card-statistics">
+                <div class="card-body">
+                    <div class="clearfix">
+                        <div class="float-left">
+                            <i class="mdi mdi-account-multiple text-danger icon-lg"></i>
+                        </div>
+                        <div class="float-right">
+                            <p class="mb-0 text-right">Total User</p>
+                            <div class="fluid-container">
+                                <h3 class="font-weight-medium text-right mb-0" th:utext="${totalUser}"></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
+            <div class="card card-statistics">
+                <div class="card-body">
+                    <div class="clearfix">
+                        <div class="float-left">
+                            <i class="mdi mdi-account text-warning icon-lg"></i>
+                        </div>
+                        <div class="float-right">
+                            <p class="mb-0 text-right">Admin User</p>
+                            <div class="fluid-container">
+                                <h3 class="font-weight-medium text-right mb-0"th:utext="${totalAdminUser}"></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
+            <div class="card card-statistics">
+                <div class="card-body">
+                    <div class="clearfix">
+                        <div class="float-left">
+                            <i class="mdi mdi-tooltip-text   text-success icon-lg"></i>
+                        </div>
+                        <div class="float-right">
+                            <p class="mb-0 text-right">Customer User</p>
+                            <div class="fluid-container">
+                                <h3 class="font-weight-medium text-right mb-0" th:utext="${totalUser - totalAdminUser}"></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
+            <div class="card card-statistics">
+                <div class="card-body">
+                    <div class="clearfix">
+                        <div class="float-left">
+                            <i class="mdi mdi-account-key text-info icon-lg"></i>
+                        </div>
+                        <div class="float-right">
+                            <p class="mb-0 text-right">Post</p>
+                            <div class="fluid-container">
+                                <h3 class="font-weight-medium text-right mb-0" th:utext="${countPost}">02</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div  class="row">
+        <div class="col-lg-12 grid-margin">
+            <div id="chart_div"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">New Users</h4>
+                    <div class="table-responsive">
+                        <table class="text-center table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    User Name
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Role
+                                </th>
+                                <th>
+                                    Created Date
+                                </th>
+                                <th>
+                                    Updated Date
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="account : ${listAccounts}">
+                                <td th:utext="${account.acc_id}"></td>
+                                <td th:utext="${account.userName}"></td>
+                                <td th:utext="${account.email}"></td>
+                                <td th:if="${account.roles.role_id == 1}" >
+                                    <label th:utext="${account.roles.roleName}" class="badge badge-info"></label>
+                                </td>
+                                <td th:if="${account.roles.role_id == 2}">
+                                    <label th:utext="${account.roles.roleName}" class="badge badge-warning"></label>
+                                </td>
+                                <td th:utext="${account.createAt}"></td>
+                                <td th:utext="${account.updateAt}"></td>
+                                <td th:if="${account.isArchieved}">
+                                    <label class="badge badge-danger">Banned</label>
+                                </td>
+                                <td th:if="${account.isArchieved == 0}">
+                                    <label class="badge badge-success">Active</label>
+                                </td>
+                                <td th:if="${account.isArchieved == 0}"}>
+
+                                    <form action="#" th:action="@{/pages/accounts/{id}/remove/dashboard(id = ${account.acc_id})}" th:method="put" >
+                                        <button class=" btn menu-icon mdi mdi-account-remove icon-mdi"></button>
+                                    </form>
+                                </td>
+                                <td th:if="${account.isArchieved}"}>
+                                    <form action="#" th:action="@{/pages/accounts/{id}/recover/dashboard(id = ${account.acc_id})}" th:method="put" >
+                                            <button type="submit" class="btn menu-icon mdi mdi-backup-restore icon-mdi"></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>
