@@ -6,11 +6,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface PhotoInPostService {
-    public List<PhotoInPosts> getAllPhotoByUserId(Long userId);
-    PhotoInPosts createPhotoInPost(Long postId, PhotoInPosts photoInPosts, MultipartFile multipartFile)throws IOException;
-    PhotoInPosts updatePhoto(Long id, PhotoInPosts photoInPosts) throws PhotoNotFoundException;
-    PhotoInPosts getPhotoById(Long id) throws PhotoNotFoundException;
+    List<Map<String, Object>> getAllPhotoByUserId(Long userId);
+    PhotoInPosts createPhotoInPost(String fileBase64, Long userId) throws IOException;
+    PhotoInPosts updatePhoto(Long id, String fileBase64) throws PhotoNotFoundException;
+    Map<String, Object> getPhotoById(Long id) throws PhotoNotFoundException;
     Boolean deletePhotoInPost(Long id) throws PhotoNotFoundException;
 }

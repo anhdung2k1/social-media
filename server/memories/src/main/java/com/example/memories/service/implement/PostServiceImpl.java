@@ -6,6 +6,7 @@ import com.example.memories.exeption.PostNotFoundException;
 import com.example.memories.model.Posts;
 import com.example.memories.repository.repositoryJPA.*;
 import com.example.memories.service.interfaces.PostService;
+import com.example.memories.utils.ImageBase64File;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,6 +43,8 @@ public class PostServiceImpl implements PostService {
     private NotificationsRepository notificationsRepository;
     @Autowired
     private PhotoInPostRepository photoInPostRepository;
+
+    private final ImageBase64File imageBase64File;
     @Override
     public PostResponse getAllPosts(int pageNo,int pageSize,String sortBy, String sortDir, String keyword){
             Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
@@ -107,8 +111,10 @@ public class PostServiceImpl implements PostService {
             assert post!=null;
             //When create a post have an image save to the database
             if(post.getPhotoInPost() != null) {
-                if (post.getPhotoInPost().getPhotoUrl().isBlank()) {
-                    PhotoInPostEntity photoInPostEntity = new PhotoInPostEntity(post.getPhotoInPost().getPhotoUrl());
+                if (post.getPhotoInPost().getPhotoUrl() != null) {
+                    PhotoInPostEntity photoInPostEntity = new PhotoInPostEntity();
+                    URL objectURL = imageBase64File.handleBase64Image(post.getPhotoInPost().getPhotoUrl());
+                    photoInPostEntity.setPhotoUrl(objectURL.toString());
                     photoInPostRepository.save(photoInPostEntity);
                     post.setPhotoInPost(photoInPostEntity);
                 }

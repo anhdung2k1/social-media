@@ -24,7 +24,7 @@ const AddPost = ({user,userProfile}) => {
   const [open, setOpen] = useState(false);
   const [openPermission, setOpenPermission] = useState(false);
   const [openFriendExcept, setOpenFriendExcept] = useState(false);
-  const [formPost, setFormPost] = useState({content: '',permission: 'Public',photoInPost: null});
+  const [formPost, setFormPost] = useState({content: '', permission: 'Public', photoInPost: null});
   const [audienceValue, setAudienceValue] = useState("Public");
   const [isFriendExcept,setIsFriendExcept] = useState(false);
 

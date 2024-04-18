@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Set;
+
 /*
     @author Anh Dung
  */
@@ -37,6 +39,7 @@ public class UsersEntity {
 
     @Column(name = "ADDRESS")
     private String address;
+
 
     @Column(name = "RELATIONSHIP")
     private String relationship;

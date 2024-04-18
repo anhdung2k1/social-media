@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+
 @Entity
 @Setter
 @Getter
@@ -38,13 +40,17 @@ public class PhotoInPostEntity {
     @NotBlank(message = "PhotoUrl must not be blank")
     private String photoUrl;
 
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private UsersEntity users;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "CREATE_AT", nullable = true)
+    @Column(name = "CREATE_AT")
     @PastOrPresent(message = "Create Date must be past or present")
     private LocalDateTime createAt;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "UPDATE_AT", nullable = true)
+    @Column(name = "UPDATE_AT")
     @PastOrPresent(message = "Update Date must be past or present")
     private LocalDateTime updateAt;
 

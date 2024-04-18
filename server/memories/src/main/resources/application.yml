@@ -7,6 +7,20 @@ logging:
     level:
         root: info
 
+# AWS Cloud Configuration
+cloud:
+  aws:
+    credentials:
+      access-key: 
+      secret-key: 
+    region:
+      static: us-east-1
+    stack:
+      auto: false
+
+bucket:
+  name: group5-memoriesbucket
+
 #ConfigurationDB
 spring:
   datasource:
