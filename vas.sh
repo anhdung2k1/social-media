@@ -20,7 +20,8 @@ me=$dir/$prg #Get absolutely path vas.sh
 vas=$me
 #Get the release commit
 git_commit=$(git --git-dir="$VAS_GIT/.git" rev-parse --short=7 HEAD)
-change_id=$(git show $git_commit | grep '^\ *Change-Id' | awk '{print $2}')
+# change_id=$(git show $git_commit | grep '^\ *Change-Id' | awk '{print $2}')
+wsl_ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysql_container)
 release=$git_commit
 
 # Dataset for Face Detection

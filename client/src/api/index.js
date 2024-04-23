@@ -66,7 +66,9 @@ export const signin = (formData) => API.post('accounts/signin',formData); // OK
 export const signup = (formData) => API.post('accounts/signup',formData); // OK
 
 //Chat
-export const fetchMessageRoom = (roomId) => API.get(`/room/${roomId}/messages`,{roomId});
+export const fetchMessageRoom = (roomId) => API.get(`/room/${roomId}/messages`);
+
+//export const fetchMessageRoom = (roomId) => API.get(`/room/${roomId}/messages`,{roomId});
 export const createMessage = (userId,roomId,newMessage) => API.post(`/user/${userId}/room/${roomId}/messages`,newMessage);
 export const updateMessage = (messId, updatedMessage) => API.put(`/messages/${messId}`,updatedMessage);
 export const deleteMessage = (messId) => API.delete(`/messages/${messId}`);
