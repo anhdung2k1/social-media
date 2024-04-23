@@ -220,7 +220,7 @@ wsl_test() {
     test -n "$VAS_GIT" || die "Not set [VAS_GIT]"
     COMMON_DB="memories"
     # This for test in Windows compiler -> expose the ip address of the WSL
-    wsl_ip=$(ip addr show eth0 | grep -oP 'inet \K[\d.]+')
+    wsl_ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysql_container)
     chmod +x $VAS_GIT/test/application.properties
     cp -f $VAS_GIT/test/application.properties $API_DIR/src/main/resources/application.properties
 
