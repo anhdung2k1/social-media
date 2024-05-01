@@ -18,9 +18,11 @@ import SearchPosts from './components/SearchPosts/SearchPosts';
 import Notifications from './components/Notifications/Notifications';
 
 const App = () => {
+  
   const user = JSON.parse(localStorage.getItem('profile'));
   const setUser = useState(JSON.parse(localStorage.getItem('profile')));
   const userProfile = useSelector((state) => state.users.user);
+  
   return (
         <GoogleOAuthProvider clientId = "890312707554-b73u9stq65c8njg26h9k7bogoi5b1luk.apps.googleusercontent.com"> 
         <BrowserRouter>

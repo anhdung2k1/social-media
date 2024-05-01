@@ -13,7 +13,8 @@ const messageReducer = (state = {isLoading: true, messages: []}, action) => {
         case FETCH_MESSAGE_ROOM:
             return {
                 ...state,
-                messages: action.payload.data
+                messages: action.payload.data,
+                isLoading: false 
             };
         case CREATE:
             return {
