@@ -1,6 +1,13 @@
 import {FETCH_ROOM,FETCH_ALL, CREATE, DELETE} from "../constants/actionTypes";
 
-const roomReducer = (state = {isLoading: true, rooms: []}, action) => {
+const initialState = {
+    isLoading: false,
+    rooms: [],
+    room: null,
+    error: null
+};
+
+const roomReducer = (state = initialState, action) => {
     switch(action.type){
         case 'START_LOADING':
             return {
@@ -18,7 +25,8 @@ const roomReducer = (state = {isLoading: true, rooms: []}, action) => {
         case FETCH_ROOM:
             return {
                 ...state,
-                room: action.payload.room
+                room: action.payload.room,
+                error: null
             };
         case CREATE:
             return {

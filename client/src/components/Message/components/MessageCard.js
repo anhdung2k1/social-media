@@ -1,61 +1,3 @@
-// import React from 'react';
-// import {Paper,Typography,Avatar,Box,IconButton} from '@mui/material';
-// import Emotion from '../../../assets/icons/emotion_message.png';
-// import Reply from '../../../assets/icons/reply_message.png';
-// import More from '../../../assets/icons/expand_message.png';
-
-// const MessageCard = ({message,user}) => {
-
-//   return (
-//     <Paper sx = {{display: 'flex',justifyContent: 'space-between', flexDirection: 'row', height: 80, alignItems: 'center', marginTop: 1}}>
-//         {message?.sender?.user_id === user?.user_id ?
-//         <>
-//         <Box sx = {{display: 'flex', flexDirection: 'row', gap: 2, marginTop: 2, marginBottom: 2}}>
-//             <Avatar alt = "avt_img" src = {message?.sender?.avatar_url} sx = {{marginLeft: 4}}/>
-//             <div>
-//                 <Typography variant = "body2" fontSize = "18px">{message?.sender?.userName}</Typography>
-//                 <Typography variant = "body2">{message?.message}</Typography>
-//             </div>
-//         </Box>
-//         <Box height = '32px' width = '120px' sx = {{display: 'flex',justifyContent: 'center', alignItems: 'center',background: '#D9D9D9',borderRadius: 30, gap: 1, position: 'static', marginTop: -4, marginRight: 2}}>
-//             <IconButton onClick = {null}>
-//                 <img alt = "icon" src = {Emotion} height = '20px'/>
-//             </IconButton>
-//             <IconButton onClick = {null}>
-//                 <img alt = "icon" src = {Reply} height = '20px'/>
-//             </IconButton>
-//             <IconButton onClick = {null}>
-//                 <img alt = "icon" src = {More} height = '20px'/>
-//             </IconButton>
-//         </Box>
-//         </>
-//         :
-//         <>     
-//         <Box height = '32px' width = '120px' sx = {{display: 'flex',justifyContent: 'center', alignItems: 'center',background: '#D9D9D9',borderRadius: 30, gap: 1, position: 'static', marginTop: -4, marginLeft: 2}}>
-//             <IconButton onClick = {null}>
-//                 <img alt = "icon" src = {Emotion} height = '20px'/>
-//             </IconButton>
-//             <IconButton onClick = {null}>
-//                 <img alt = "icon" src = {Reply} height = '20px'/>
-//             </IconButton>
-//             <IconButton onClick = {null}>
-//                 <img alt = "icon" src = {More} height = '20px'/>
-//             </IconButton>
-//         </Box>
-//         <Box sx = {{display: 'flex', flexDirection: 'row', gap: 2,marginTop: 2, marginBottom: 2}}>
-//             <div>
-//                 <Typography variant = "body2" fontSize = "18px" sx = {{display: 'flex', justifyContent: 'end'}}>{message?.sender?.userName}</Typography>
-//                 <Typography variant = "body2">{message?.message}</Typography>
-//             </div>
-//             <Avatar alt = "avt_img" src = {message?.sender?.avatar_url} sx = {{marginRight: 4}}/>
-//         </Box>
-//         </>
-//         }
-//     </Paper>
-//   )
-// }
-
-// export default MessageCard
 import React from 'react';
 import { Paper, Typography, Avatar, Box, IconButton } from '@mui/material';
 import Emotion from '../../../assets/icons/emotion_message.png';
@@ -63,61 +5,58 @@ import Reply from '../../../assets/icons/reply_message.png';
 import More from '../../../assets/icons/expand_message.png';
 
 const MessageCard = ({ message, user }) => {
-  const defaultFriend = {
-    user_id: '0',
-    userName: 'Default Friend',
-    avatar_url: 'path_to_default_avatar_image.jpg',
-  };
-
-  const sender = message?.sender || defaultFriend;
-
+  const sender = message?.sender;
   const isCurrentUser = sender.user_id === user?.user_id;
 
+  const currentUserStyles = {
+    backgroundColor: '#dcf8c6',  // Light green background for current user
+    justifyContent: 'flex-end',
+    marginLeft: 'auto',
+    borderRadius: '20px',
+    padding: '8px 16px'
+  };
+
+  const otherUserStyles = {
+    backgroundColor: '#ffffff',  // White background for other users
+    justifyContent: 'flex-start',
+    marginRight: 'auto',
+    borderRadius: '20px',
+    padding: '8px 16px'
+  };
+
   return (
-    <Paper sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'row', height: 80, alignItems: 'center', marginTop: 1 }}>
-      {isCurrentUser ? (
-        <>
-          <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, marginTop: 2, marginBottom: 2 }}>
-            <Avatar alt="avt_img" src={sender.avatar_url} sx={{ marginLeft: 4 }} />
-            <div>
-              <Typography variant="body2" fontSize="18px">{sender.userName}</Typography>
-              <Typography variant="body2">{message?.message}</Typography>
-            </div>
-          </Box>
-          <Box height="32px" width="120px" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#D9D9D9', borderRadius: 30, gap: 1, position: 'static', marginTop: -4, marginRight: 2 }}>
-            <IconButton onClick={null}>
-              <img alt="icon" src={Emotion} height="20px" />
-            </IconButton>
-            <IconButton onClick={null}>
-              <img alt="icon" src={Reply} height="20px" />
-            </IconButton>
-            <IconButton onClick={null}>
-              <img alt="icon" src={More} height="20px" />
-            </IconButton>
-          </Box>
-        </>
-      ) : (
-        <>
-          <Box height="32px" width="120px" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#D9D9D9', borderRadius: 30, gap: 1, position: 'static', marginTop: -4, marginLeft: 2 }}>
-            <IconButton onClick={null}>
-              <img alt="icon" src={Emotion} height="20px" />
-            </IconButton>
-            <IconButton onClick={null}>
-              <img alt="icon" src={Reply} height="20px" />
-            </IconButton>
-            <IconButton onClick={null}>
-              <img alt="icon" src={More} height="20px" />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, marginTop: 2, marginBottom: 2 }}>
-            <div>
-              <Typography variant="body2" fontSize="18px" sx={{ display: 'flex', justifyContent: 'end' }}>{sender.userName}</Typography>
-              <Typography variant="body2">{message?.message}</Typography>
-            </div>
-            <Avatar alt="avt_img" src={sender.avatar_url} sx={{ marginRight: 4 }} />
-          </Box>
-        </>
-      )}
+    <Paper elevation={0} sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: isCurrentUser ? 'flex-end' : 'flex-start',
+      overflow: 'hidden',
+      border: 0,
+      backgroundColor: 'transparent'
+    }}>
+      <Box sx={isCurrentUser ? currentUserStyles : otherUserStyles}>
+        <Avatar alt="Avatar Image" src={sender.avatar_url} sx={{ width: 32, height: 32, marginRight: 2 }} />
+        <div>
+          <Typography variant="caption" display="block" sx={{ fontSize: 12, color: 'gray' }}>{sender.userName}</Typography>
+          <Typography variant="body2" sx={{ fontSize: 14 }}>{message?.message}</Typography>
+        </div>
+      </Box>
+      <Box sx={{
+        display: 'flex',
+        gap: 1,
+        marginTop: 1,
+        marginBottom: 1,
+        justifyContent: isCurrentUser ? 'flex-end' : 'flex-start'
+      }}>
+        <IconButton size="small">
+          <img alt="Like icon" src={Emotion} style={{ width: 24, height: 24 }} />
+        </IconButton>
+        <IconButton size="small">
+          <img alt="Reply icon" src={Reply} style={{ width: 24, height: 24 }} />
+        </IconButton>
+        <IconButton size="small">
+          <img alt="More options icon" src={More} style={{ width: 24, height: 24 }} />
+        </IconButton>
+      </Box>
     </Paper>
   );
 }

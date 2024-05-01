@@ -1,110 +1,88 @@
-import React,{useEffect} from 'react';
-import {Box,Container,Skeleton} from '@mui/material';
-import SidebarChat from './components/SidebarChat';
-import ListFriendChat from './components/ListFriendChat';
-import FriendFeed from './components/FriendFeed';
-import {useLocation} from 'react-router-dom';
-import {useDispatch,useSelector} from 'react-redux';
-import {getAllRoom} from '../../actions/room';
+import React, { useState, useEffect } from "react";
+import { Box, Container, Skeleton } from "@mui/material";
+import SidebarChat from "./components/SidebarChat";
+import ListFriendChat from "./components/ListFriendChat";
+import FriendFeed from "./components/FriendFeed";
+import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllRoom } from "../../actions/room";
 
-const FriendMessage = ({user}) => {
-    const {isLoading,rooms} = useSelector((state) => state.rooms);
-    const location = useLocation();
-    const dispatch = useDispatch();
-    useEffect(() => {
-      dispatch(getAllRoom(user?.user_id));
-    }, [dispatch,user?.user_id,location]);
-    if(!rooms) {return 'No rooms found';}
-    return (
-        isLoading ?
-   
-   <Container >
-            <Box height = 'auto' width = "100%" sx={{justifyContent: 'center', display: 'flex', flexDirection: 'column', marginLeft: '40px'}}>
-                <Skeleton />
-                <Skeleton animation="wave" />
-                <Skeleton animation={false} />
-                <Skeleton />
-                <Skeleton animation="wave" />
-                <Skeleton animation={false} />
-                <Skeleton />
-            </Box>
-        </Container>
-        :
-        <>
-        {rooms &&
-            <Box display = 'flex' flexDirection = "row" justifyContent = 'space-between' sx = {{height: 'auto',marginTop: '-10px', marginLeft: "-11.2rem"}}>
-                <SidebarChat />
-                <ListFriendChat user = {user} />
-                <Box flex = {4} p={1} sx = {{width: '100%', height: 'auto'}}>
-                    { rooms.map((room) => (
-                        <FriendFeed key = {room.convId} user = {user} room = {room} />
-                    ))
-                    }
-                </Box>
-            </Box>
-        }
-        </>
-    )
-}
+const FriendMessage = ({ user }) => {
+  const { isLoading, rooms } = useSelector((state) => state.rooms);
+ 
+  const location = useLocation();
+  const dispatch = useDispatch();
 
-export default FriendMessage
-// import React, { useState, useEffect } from 'react';
-// import { Box, Container, Skeleton } from '@mui/material';
-// import SidebarChat from './components/SidebarChat';
-// import ListFriendChat from './components/ListFriendChat';
-// import FriendFeed from './components/FriendFeed';
-// import { useLocation } from 'react-router-dom';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { getAllRoom } from '../../actions/room';
+  // Initialize chat messages state
+  const [chatMessages, setChatMessages] = useState([
+    { sender: "user", message: "Hey, how are you?" },
+    { sender: "friend", message: "I'm good, thanks! How about you?" },
+  ]);
 
-// const FriendMessage = ({ user }) => {
-//   const { isLoading, rooms } = useSelector((state) => state.rooms);
-//   const location = useLocation();
-//   const dispatch = useDispatch();
-  
-//   useEffect(() => {
-//     dispatch(getAllRoom(user?.user_id));
-//   }, [dispatch, user?.user_id, location]);
-  
-//   // Initialize chat messages state
-//   const [chatMessages, setChatMessages] = useState([
-//     { sender: 'user', message: 'Hey, how are you?' },
-//     { sender: 'friend', message: 'I\'m good, thanks! How about you?' }
-//   ]);
+  useEffect(() => {
+    dispatch(getAllRoom(user?.user_id));
+  }, [dispatch, user?.user_id, location]);
+  if (!rooms) {
+    return "No rooms found";
+  }
+  console.log("rooms: ", rooms);
+  console.log('isLoading: ', isLoading);
 
-//   if (!rooms) {
-//     return 'No rooms found';
-//   }
+  if (!rooms) {
+    return "No rooms found";
+  }
 
-//   return (
-//     isLoading ?
-//       <Container>
-//         <Box height='auto' width="100%" sx={{ justifyContent: 'center', display: 'flex', flexDirection: 'column', marginLeft: '40px' }}>
-//           <Skeleton />
-//           <Skeleton animation="wave" />
-//           <Skeleton animation={false} />
-//           <Skeleton />
-//           <Skeleton animation="wave" />
-//           <Skeleton animation={false} />
-//           <Skeleton />
-//         </Box>
-//       </Container>
-//       :
-//       <>
-//         {rooms &&
-//           <Box display='flex' flexDirection="row" justifyContent='space-between' sx={{ height: 'auto', marginTop: '-10px', marginLeft: "-11.2rem" }}>
-//             <SidebarChat />
-//             <ListFriendChat user={user} />
-//             <Box flex={4} p={1} sx={{ width: '100%', height: 'auto' }}>
-//               {/* Pass chatMessages as prop to FriendFeed component */}
-//               {rooms.map((room) => (
-//                 <FriendFeed key={room.convId} user={user} room={room} chatMessages={chatMessages} />
-//               ))}
-//             </Box>
-//           </Box>
-//         }
-//       </>
-//   );
-// };
+  return isLoading ? (
+    <Container>
+      <Box
+        height="auto"
+        width="100%"
+        sx={{
+          justifyContent: "center",
+          display: "flex",
+          flexDirection: "column",
+          marginLeft: "40px",
+        }}
+      >
+        <Skeleton />
+        <Skeleton animation="wave" />
+        <Skeleton animation={false} />
+        <Skeleton />
+        <Skeleton animation="wave" />
+        <Skeleton animation={false} />
+        <Skeleton />
+      </Box>
+    </Container>
+  ) : (
+    <>
+      {rooms && (
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+          sx={{ height: "auto", marginTop: "-10px", marginLeft: "-11.2rem" }}
+        >
+          <SidebarChat />
+          
+          <ListFriendChat user={user} />
 
-// export default FriendMessage;
+          <Box flex={4} p={1} sx={{ width: "100%", height: "auto" }}>
+            {/* Pass chatMessages as prop to FriendFeed component */}
+            <div>
+              {rooms.map((room) => (
+                <FriendFeed
+                  key={room.convId}
+                  user={user}
+                  room={room}
+                  chatMessages={chatMessages}
+                />
+              ))}
+            </div>
+          </Box>
+        </Box>
+      )}
+    </>
+  );
+};
+
+export default FriendMessage;
