@@ -6,7 +6,9 @@ export const getMessageRoom = (roomId) => async(dispatch) => {
       dispatch({type: START_LOADING});
   
       const { data } = await api.fetchMessageRoom(roomId);
-  
+      
+      console.log(data)
+
       dispatch({ type: FETCH_MESSAGE_ROOM, payload: { data}});
       dispatch({type: END_LOADING});
   
@@ -18,8 +20,9 @@ export const createMessage = (userId,roomId,newMessage) => async(dispatch) => {
   try{
     dispatch({ type: START_LOADING });
     const { data } = await api.createMessage(userId,roomId,newMessage);
-
+    console.log("Message created:", data);
     dispatch({ type: CREATE, payload: data });
+    dispatch({ type: END_LOADING });
   }catch(e){
     console.log(e);
   }

@@ -2,7 +2,9 @@ import React from 'react';
 import {Box,Avatar,Typography} from '@mui/material';
 import Online from '../../../assets/icons/online.png';
 import {useNavigate} from 'react-router-dom';
+
 const FriendFeed = ({user,room}) => {
+
   const navigate = useNavigate();
   return (
     <>
@@ -32,5 +34,6 @@ const FriendFeed = ({user,room}) => {
     </>
   )
 }
+
 
 export default FriendFeed
