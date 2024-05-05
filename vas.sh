@@ -123,7 +123,6 @@ save_image() {
 build_repo() {
     test -n "$VAS_GIT" || die "Not set [VAS_GIT]"
     test -n "$__name" || die "Module name required"
-    test -n "$__aws" || die "Module aws required"
     COMMON_DB="memories"
     image_name=sc-$__name
     kafka_con="kafka_container"
