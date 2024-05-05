@@ -118,13 +118,14 @@ save_image() {
 ## Run docker server container
 ##
 ## --name=<module name>
+## --aws=<true/false>
 ##
 build_repo() {
     test -n "$VAS_GIT" || die "Not set [VAS_GIT]"
     test -n "$__name" || die "Module name required"
+    test -n "$__aws" || die "Module aws required"
     COMMON_DB="memories"
     image_name=sc-$__name
-    mysql_con="mysql_container"
     kafka_con="kafka_container"
     redis_con="redis_container"
     version=$(get_version)
@@ -133,29 +134,12 @@ build_repo() {
     echo "# Prepare the docker local build : #"
     echo "##################################"
 
-    mysql_container=$(docker ps -a --format "{{.Names}}" | grep -i $mysql_con)
-    if [[ -n "$mysql_container" ]]; then
-        docker rm -f $mysql_con
-    fi
-    #Start docker mysql container
-    docker compose up -d \
-        || die "[ERROR]: Failed to run docker compose"
-    #Start docker mysql container
-    docker run -d --name $mysql_con \
-        -e MYSQL_ROOT_PASSWORD=root \
-        -e MYSQL_DATABASE=${COMMON_DB} \
-        -e MYSQL_USER=${COMMON_DB} \
-        -e MYSQL_PASSWORD=${COMMON_DB} \
-        -p 3306:3306 \
-        mysql:latest \
-    || die "[ERROR]: Failed to run mysql docker"
-    mysql_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $mysql_con)
-    echo $mysql_IP
-
-    echo "##################################"
+    mysql_IP="group05-db.clilzfsrvhaq.us-east-1.rds.amazonaws.com"
 
     case $__name in
     "server")
+        docker compose up -d \
+        || die "[ERROR]: Failed to run docker compose"
         echo "Start to build Spring boot compile"
         rm -rf $API_DIR/src/main/resources/application.properties
         pushd .
@@ -187,6 +171,7 @@ build_repo() {
                 -e DB_USERNAME=${COMMON_DB} \
                 -e DB_NAME=${COMMON_DB} \
                 -e DB_PASSWORD=${COMMON_DB} \
+                -p 8080:8080 \
                 ${DOCKER_REGISTRY}/${image_name}:${version} \
                 || die "[ERROR]: Failed to compile"
     ;;
@@ -211,6 +196,7 @@ build_repo() {
         $vas build_image --name=$__name
         docker run -it -d --name $__name \
                 -e API_HOST=${API_HOST} \
+                -p 3000:3000 \
                 ${DOCKER_REGISTRY}/${image_name}:${version} \
                 || die "[ERROR]: Failed to compile"
     esac

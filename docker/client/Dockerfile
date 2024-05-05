@@ -11,9 +11,8 @@ LABEL \
     ck.image.title="Social Client ReactJS" \
     ck.image.created="$BUILD_TIME"
 
-WORKDIR /app
-COPY --chmod=0755 --chown=0:0 package.json package.json
-COPY --chmod=0755 --chown=0:0 package-lock.json package-lock.json
+WORKDIR /app/client
+COPY --chmod=0755 --chown=0:0 client/ /app/client/
 RUN npm install --force
 COPY . .
 CMD ["npm", "start"]

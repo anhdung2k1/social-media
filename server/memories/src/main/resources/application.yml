@@ -36,7 +36,7 @@ spring:
         ddl-auto: update
   #Kafka
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: REPLACE_WITH_KAFKA_IP:9092
   #Redis
   mvc:
     hiddenmethod:
@@ -44,7 +44,7 @@ spring:
             enabled: true
   data:
     redis:
-        host: localhost
+        host: REPLACE_WITH_REDIS_IP
         port: 6379
 
 #Port
