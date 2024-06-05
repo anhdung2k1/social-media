@@ -23,7 +23,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.cors().and().csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/accounts/signin","/api/accounts/signup", "/resources/**", "/css/**", "/js/**", "/images/**", "/vendors/**", "/error/**","/pages/doLogin", "/pages/login")
+                .requestMatchers("/api/accounts/signin","/api/accounts/signup", "/resources/**", "/css/**", "/js/**", "/images/**", "/vendors/**", "/error/**","/pages/doLogin", "/pages/login", "/actuator/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

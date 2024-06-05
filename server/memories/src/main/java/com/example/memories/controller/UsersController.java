@@ -15,7 +15,7 @@ import java.util.Map;
 /*
     @author Anh Dung
  */
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://ec2-54-210-169-183.compute-1.amazonaws.com:3000" , "http://54.210.169.183:3000")
 @RestController
 @RequestMapping("/api")
 public class UsersController {
